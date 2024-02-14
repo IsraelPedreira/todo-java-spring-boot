@@ -3,6 +3,7 @@ package com.israel.todolistjava.todolistjava.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
@@ -31,6 +32,7 @@ public class TodoEntity {
     private int priority;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="userId", updatable = false)
     private UserEntity userEntity;
 

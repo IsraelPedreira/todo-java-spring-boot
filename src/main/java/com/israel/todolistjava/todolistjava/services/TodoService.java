@@ -33,12 +33,7 @@ public class TodoService {
     }
     
     public List<TodoEntity> create(TodoEntityDto todo, String headerAuth){
-        String token = headerAuth.replace("Bearer ", "");
-
-        String username = tokenService.validateToken(token);
-
-        UserDetails user = userRepository.findByUsername(username);
-
+        UserDetails user = this.getUserByToken(headerAuth);
 
         TodoEntity todoEntity = TodoEntity.builder()
                 .description(todo.description())
@@ -49,14 +44,21 @@ public class TodoService {
 
 
         this.todoRepository.save(todoEntity);
-        return this.getAll();
+        return this.getAllById(((UserEntity) user).getId());
     }
 
-    public List<TodoEntity> getAll(){
-        return this.todoRepository.findByOrderByPriorityDesc();
+    private List<TodoEntity> getAllById(UUID id){
+        return this.todoRepository.findByUserEntityIdOrderByPriorityDesc(id);
     }
 
-    public List<TodoEntity> update(UUID id, TodoEntityDto entityToUpdate){
+    public List<TodoEntity> getAll(String headerAuth){
+        UserDetails user = this.getUserByToken(headerAuth);
+        return this.getAllById(((UserEntity) user).getId());
+    }
+
+    public List<TodoEntity> update(UUID id, TodoEntityDto entityToUpdate, String headerAuth){
+        UserDetails user = this.getUserByToken(headerAuth);
+
         TodoEntity entity = TodoEntity.builder()
         .id(id)
         .description(entityToUpdate.description())
@@ -65,14 +67,21 @@ public class TodoService {
         .build();
         
         this.todoRepository.save(entity);
-        
-        return this.getAll();
+
+        return this.getAllById(((UserEntity) user).getId());
     }
 
-    public List<TodoEntity> delete(UUID id){
+    public List<TodoEntity> delete(UUID id, String headerAuth){
+        UserDetails user = this.getUserByToken(headerAuth);
         TodoEntity todo = this.todoRepository.getReferenceById(id);
         this.todoRepository.delete(todo);
 
-        return this.getAll();
+        return this.getAllById(((UserEntity) user).getId());
+    }
+
+    private UserDetails getUserByToken(String headerAuth){
+        String token = headerAuth.replace("Bearer ", "");
+        String username = tokenService.validateToken(token);
+        return userRepository.findByUsername(username);
     }
 }

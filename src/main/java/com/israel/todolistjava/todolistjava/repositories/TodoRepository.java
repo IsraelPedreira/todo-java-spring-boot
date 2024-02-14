@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.israel.todolistjava.todolistjava.entities.TodoEntity;
 
 public interface TodoRepository extends JpaRepository<TodoEntity, UUID> {
-    public List<TodoEntity> findByOrderByPriorityDesc();
+    public List<TodoEntity> findByUserEntityIdOrderByPriorityDesc(UUID id);
 
 }

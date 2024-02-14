@@ -32,20 +32,20 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TodoEntity>> getAllTodos(){
-        return ResponseEntity.ok().body(this.todoService.getAll());
+    public ResponseEntity<List<TodoEntity>> getAllTodos(@RequestHeader (name="Authorization") String headerAuth){
+        return ResponseEntity.ok().body(this.todoService.getAll(headerAuth));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<List<TodoEntity>> update(@PathVariable UUID id, @RequestBody TodoEntityDto entity) {
-        List<TodoEntity> response = this.todoService.update(id, entity);
+    public ResponseEntity<List<TodoEntity>> update(@PathVariable UUID id, @RequestBody TodoEntityDto entity, @RequestHeader (name="Authorization") String headerAuth) {
+        List<TodoEntity> response = this.todoService.update(id, entity, headerAuth);
         
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<List<TodoEntity>> delete(@PathVariable("id") UUID id){
-        List<TodoEntity> response = this.todoService.delete(id);
+    public ResponseEntity<List<TodoEntity>> delete(@PathVariable("id") UUID id, @RequestHeader (name="Authorization") String headerAuth){
+        List<TodoEntity> response = this.todoService.delete(id, headerAuth);
 
         return ResponseEntity.ok().body(response);
     }
