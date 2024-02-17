@@ -7,6 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public record TodoEntityDto (UUID id, String name, String description, int priority, String username) {
+public record TodoEntityDto (UUID id, String name, String description, int priority, boolean is_finished) {
 
 }

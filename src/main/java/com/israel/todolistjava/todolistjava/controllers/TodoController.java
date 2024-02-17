@@ -1,6 +1,7 @@
 package com.israel.todolistjava.todolistjava.controllers;
 
 import com.israel.todolistjava.todolistjava.infra.security.SecurityFilter;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class TodoController {
     }
     
     @PostMapping
-    public ResponseEntity<List<TodoEntity>> create(@RequestBody TodoEntityDto todo, @RequestHeader (name="Authorization") String headerAuth){
+    public ResponseEntity<List<TodoEntity>> create(@Valid @RequestBody TodoEntityDto todo, @RequestHeader (name="Authorization") String headerAuth){
 
         List<TodoEntity> response = this.todoService.create(todo, headerAuth);
         return ResponseEntity.ok().body(response);

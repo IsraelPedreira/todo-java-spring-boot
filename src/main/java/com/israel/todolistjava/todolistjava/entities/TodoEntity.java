@@ -29,7 +29,9 @@ public class TodoEntity {
     @NonNull
     private String name;
     private String description;
+    @NonNull
     private int priority;
+    private boolean is_finished;
 
     @ManyToOne
     @JsonIgnore
