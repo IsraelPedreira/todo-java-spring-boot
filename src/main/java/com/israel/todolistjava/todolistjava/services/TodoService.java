@@ -2,17 +2,11 @@ package com.israel.todolistjava.todolistjava.services;
 
 import java.util.List;
 import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.israel.todolistjava.todolistjava.entities.UserEntity;
-import com.israel.todolistjava.todolistjava.infra.security.SecurityFilter;
 import com.israel.todolistjava.todolistjava.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import com.israel.todolistjava.todolistjava.dtos.TodoEntityDto;
 import com.israel.todolistjava.todolistjava.entities.TodoEntity;
 import com.israel.todolistjava.todolistjava.repositories.TodoRepository;
@@ -27,11 +21,8 @@ public class TodoService {
     @Autowired
     TokenService tokenService;
 
-    private TodoRepository todoRepository;
-
-    public TodoService(TodoRepository todoRepository){
-        this.todoRepository = todoRepository;
-    }
+    @Autowired
+    TodoRepository todoRepository;
     
     public List<TodoEntity> create(TodoEntityDto todo, String headerAuth){
         UserDetails user = this.getUserByToken(headerAuth);
